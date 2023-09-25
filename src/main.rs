@@ -7,7 +7,7 @@ mod inputs;
 mod utils;
 
 use git_actions::*;
-// use inputs::*;
+use inputs::*;
 // use utils::*;
 
 fn main() {
@@ -22,7 +22,11 @@ fn main() {
             println!("No commits yet");
             make_initial_commit();
         } else {
-            print!("There are commits");
+            let commit_type: String = get_commit_type();
+            let commit_message: String = get_commit_message();
+            
+            confirm_and_stage_all();
+            make_commit(commit_type, commit_message);
         }
     } else {
         println!("Not a git repository");

@@ -8,5 +8,10 @@ pub fn select_option(options: &[&str]) -> Option<usize> {
         .interact_opt()
         .unwrap();
 
+    if selection.is_none() {
+        println!("Please choose an option");
+        std::process::exit(1);
+    }
+
     return selection;
 }

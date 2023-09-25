@@ -5,14 +5,9 @@ pub fn get_commit_type() -> String {
         "feat", "fix", "docs", "style", "refactor", "test", "chore", "revert",
     ];
 
-    let commit_type_choice: Option<usize> = select_option(&commit_type_options);
+    let commit_type_choice_number: Option<usize> = select_option(&commit_type_options);
 
-    if commit_type_choice.is_none() {
-        println!("Please choose a commit type");
-        std::process::exit(1);
-    }
-
-    let commit_type_choice: String = commit_type_options[commit_type_choice.unwrap()].to_string();
+    let commit_type_choice: String = commit_type_options[commit_type_choice_number.unwrap()].to_string();
 
     return commit_type_choice;
 }
