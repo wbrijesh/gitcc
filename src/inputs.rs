@@ -7,7 +7,8 @@ pub fn get_commit_type() -> String {
 
     let commit_type_choice_number: Option<usize> = select_option(&commit_type_options);
 
-    let commit_type_choice: String = commit_type_options[commit_type_choice_number.unwrap()].to_string();
+    let commit_type_choice: String =
+        commit_type_options[commit_type_choice_number.unwrap()].to_string();
 
     return commit_type_choice;
 }

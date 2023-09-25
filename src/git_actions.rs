@@ -1,7 +1,9 @@
+use git2::Repository;
+use std::env::current_dir;
+use std::process::Command;
+
 use crate::inputs::*;
 use crate::utils::*;
-
-use std::process::Command;
 
 pub fn make_commit(commit_type: String, commit_message: String) {
     Command::new("git")
@@ -20,10 +22,40 @@ pub fn confirm_and_stage_all() {
 
     if staging_choice == "Yes" {
         Command::new("git")
-        .arg("add")
-        .arg("-A")
-        .output()
-        .expect("Failed to add files.");
+            .arg("add")
+            .arg("-A")
+            .output()
+            .expect("Failed to add files.");
+    }
+}
+
+// function to push to remote
+pub fn confirm_and_push_to_remote() {
+    let push_options: [&str; 2] = ["Yes", "No"];
+    let push_choice_number: Option<usize> = select_option(&push_options);
+    let push_choice: String = push_options[push_choice_number.unwrap()].to_string();
+
+    if push_choice == "Yes" {
+        let repo: Repository = Repository::open(current_dir().unwrap()).unwrap();
+        let remotes_string_array = repo.remotes().unwrap();
+
+        let mut remotes: Vec<String> = Vec::new();
+        for remote in &remotes_string_array {
+            remotes.push(remote.unwrap().to_string());
+        }
+
+        let remote_choice_number: Option<usize> = select_option_string_vec(&remotes);
+        let remote_choice: String = remotes[remote_choice_number.unwrap()].to_string();
+
+        // TODO: ask user to choose branch
+
+        println!("Pushing to {}...", remote_choice);
+
+        Command::new("git")
+            .arg("push")
+            .arg(remote_choice)
+            .output()
+            .expect("Failed to push to remote.");
     }
 }
 

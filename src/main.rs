@@ -24,9 +24,11 @@ fn main() {
         } else {
             let commit_type: String = get_commit_type();
             let commit_message: String = get_commit_message();
-            
+
             confirm_and_stage_all();
             make_commit(commit_type, commit_message);
+
+            confirm_and_push_to_remote();
         }
     } else {
         println!("Not a git repository");
